@@ -47,6 +47,12 @@ class MazeCell:
   def remove_wall(self, wall: Direction) -> None:
     self._walls[wall] = False
 
+  def open_sides(self) -> List[Direction]:
+    """Find all directions that do not have walls."""
+    # filter(lambda n : n[1] is not None and not n[1].visited, neighbors.items())
+    open_walls = dict(filter(lambda w : not w[1], self._walls.items()))
+    return list(open_walls.keys()) 
+
 class Maze:
   """
   Represents a maze of connected cells. A "cell" is simple a space a person could occupy.
@@ -93,8 +99,26 @@ class Maze:
     if (location.x < 0 or location.x >= self.width) or (location.y < 0 or location.y >= self.height):
       found = None
     else:  
-      found = self._grid[location.y][location.x]
+      found = self._grid[int(location.y)][int(location.x)]
     return found 
+
+  def find_adjacent_neighbor(self, direction: Direction, location: Point) -> Point:
+    """Given a current location, find the coordinates of an adjacent cell in a specific direction."""
+    # TODO: Does Python have a switch statement?
+    neighbor_location: Point = None
+    if direction == Direction.NORTH:
+      neighbor_location = Point(location.x, location.y - 1)
+    elif direction == Direction.EAST:
+      neighbor_location = Point(location.x + 1, location.y)
+    elif direction == Direction.SOUTH:
+      neighbor_location =  Point(location.x, location.y + 1)
+    elif direction == Direction.WEST:
+      neighbor_location = Point(location.x - 1, location.y)
+    else:
+      # TODO: This is redundant, but I want an explicit return condition.
+      # Null Object pattern may be preferable.
+      neighbor_location = None
+    return neighbor_location
 
   def find_neighbors(self, cell: MazeCell) -> Dict[Direction, MazeCell]:
     """
