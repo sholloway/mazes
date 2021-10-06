@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from generation.direction import Direction
 from generation.structures import Point
 
@@ -31,8 +32,8 @@ class Agent:
   def last_location(self) -> Point:
     return self._last_location
 
-  """
-  TODO: Make the agent remember the last place it's been. 
-  Want to record the last rectangle, so we can rapidly draw over it. 
-  Also consider tracking the direction it came so we can avoid back tracing. 
-  """
+  def maze_strategy(self, strategy: Callable[..., None]) -> None:
+    self._maze_strategy = strategy
+
+  def explore(self, maze) -> None:
+    self._maze_strategy(self, maze)
