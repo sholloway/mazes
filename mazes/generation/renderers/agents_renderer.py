@@ -23,10 +23,11 @@ def draw_agents(agents: List[Agent], canvas: Canvas) -> Canvas:
 
   with hold_canvas(canvas):
     # clear where agents have been.
-    canvas.fill_style = 'white'
-    for agent in agents:
-      agent_upper_left: Corner = build_agent_rect(agent.last_location, horizontal_offset, vertical_offset, agent_offset)
-      canvas.fill_rect(agent_upper_left.x, agent_upper_left.y, AGENT_SIZE, AGENT_SIZE)
+    canvas.clear()
+    # canvas.fill_style = 'white'
+    # for agent in agents:
+    #   agent_upper_left: Corner = build_agent_rect(agent.last_location, horizontal_offset, vertical_offset, agent_offset)
+    #   canvas.fill_rect(agent_upper_left.x, agent_upper_left.y, AGENT_SIZE, AGENT_SIZE)
 
     # draw where the agents are now.
     for agent in agents:
