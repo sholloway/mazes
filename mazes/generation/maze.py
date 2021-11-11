@@ -14,6 +14,10 @@ class MazeCell:
   
   def __init__(self, x: int, y: int) -> None:
     self._location = Point(x,y)
+
+    # A wall is represented by a boolean value.
+    # True indicates there is a wall on that side.
+    # False means it's open. 
     self._walls = {
       Direction.NORTH: True,
       Direction.EAST: True,
@@ -96,11 +100,14 @@ class Maze:
       Returns an instance of a MazeCell if it exists, otherwise None.
     """
     found: Optional[MazeCell]
-    if (location.x < 0 or location.x >= self.width) or (location.y < 0 or location.y >= self.height):
+    if self.out_of_bounds(location):
       found = None
     else:  
       found = self._grid[int(location.y)][int(location.x)]
     return found 
+
+  def out_of_bounds(self, location: Point) -> bool:
+    return (location.x < 0 or location.x >= self.width) or (location.y < 0 or location.y >= self.height)
 
   def find_adjacent_neighbor(self, direction: Direction, location: Point) -> Point:
     """Given a current location, find the coordinates of an adjacent cell in a specific direction."""
