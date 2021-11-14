@@ -231,3 +231,17 @@ def find_path(agent: Agent, maze: Maze, target: Point) -> Tuple[bool,Union[None,
           possible_steps.push(neighbor, neighbor.total_cost())
   
   return (False, None)
+
+def build_path_walker(path_to_walk: Path):
+  """A closure that enables an agent to traverse a list of points."""
+  path = path_to_walk
+  current_step_index = -1
+
+  def walk_path(agent: Agent, maze: Maze) -> None:
+    nonlocal current_step_index, path
+
+    if current_step_index < (len(path) - 1):
+      current_step_index += 1
+      agent.move_to(path[current_step_index])
+
+  return walk_path
